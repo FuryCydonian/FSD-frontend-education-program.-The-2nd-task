@@ -5,6 +5,9 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 //     CleanWebpackPlugin
 // } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isDev = process.env.NODE_ENV === 'development';
 
 const PATHS = {
     src: path.join(__dirname, './src'),
@@ -34,7 +37,8 @@ module.exports = {
     //     }
     // },
     devServer: {
-        port: 4200
+        port: 4200,
+        hot: isDev
     },
     plugins: [
         // new CleanWebpackPlugin(),
@@ -46,13 +50,24 @@ module.exports = {
         ...PAGES.map(page => new HTMLWebpackPlugin({
             template: `${PAGES_DIR}/${page}`,
             filename: `./${page.replace(/\.pug/, '.html')}`
-        }))
+        })),
+        new MiniCssExtractPlugin({
+            filename: 'bundle.css'
+        })
     ],
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: isDev,
+                            reloadAll: true
+                        }
+                    },
+                    'css-loader']
             },
             {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,
