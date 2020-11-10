@@ -6,8 +6,27 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 // } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+
+const optimization = () => {
+    const config = {
+        minimize: true,
+    };
+
+    if (isProd) {
+        config.minimizer = [
+            new CssMinimizerPlugin(),
+            new TerserWebpackPlugin()
+
+        ]
+    }
+
+    return config;
+};
 
 const isDev = process.env.NODE_ENV === 'development';
+const isProd = !isDev;
 
 const PATHS = {
     src: path.join(__dirname, './src'),
@@ -31,11 +50,7 @@ module.exports = {
             '@': path.resolve(__dirname, 'src'),
         }
     },
-    // optimization: {
-    //     splitChunks: {
-    //         chunks: 'all'
-    //     }
-    // },
+    optimization: optimixation(),
     devServer: {
         port: 4200,
         hot: isDev
@@ -49,7 +64,10 @@ module.exports = {
         }),
         ...PAGES.map(page => new HTMLWebpackPlugin({
             template: `${PAGES_DIR}/${page}`,
-            filename: `./${page.replace(/\.pug/, '.html')}`
+            filename: `./${page.replace(/\.pug/, '.html')}`,
+            minify: {
+                collapseWhitespace: isProd
+            }
         })),
         new MiniCssExtractPlugin({
             filename: 'bundle.css'
@@ -58,7 +76,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
+                test: /\.s?css$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
@@ -67,7 +85,9 @@ module.exports = {
                             reloadAll: true
                         }
                     },
-                    'css-loader']
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,
