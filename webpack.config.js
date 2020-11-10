@@ -10,9 +10,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 const optimization = () => {
-    const config = {
-        minimize: true,
-    };
+    const config = {};
 
     if (isProd) {
         config.minimizer = [
@@ -24,6 +22,8 @@ const optimization = () => {
 
     return config;
 };
+
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -41,7 +41,7 @@ module.exports = {
     mode: 'development',
     entry: './scripts/index.js',
     output: {
-        filename: 'bundle.js',
+        filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -50,7 +50,7 @@ module.exports = {
             '@': path.resolve(__dirname, 'src'),
         }
     },
-    optimization: optimixation(),
+    optimization: optimization(),
     devServer: {
         port: 4200,
         hot: isDev
@@ -70,19 +70,31 @@ module.exports = {
             }
         })),
         new MiniCssExtractPlugin({
-            filename: 'bundle.css'
+            filename: filename('css')
         })
     ],
     module: {
         rules: [
             {
-                test: /\.s?css$/,
+                test: /\.css$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
-                            hmr: isDev,
-                            reloadAll: true
+
+                        }
+                    },
+                    'css-loader',
+                    // 'sass-loader'
+                ]
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+
                         }
                     },
                     'css-loader',

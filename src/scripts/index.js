@@ -1,4 +1,5 @@
 import * as $ from 'jquery';
-import '../styles/global.scss';
+import '../styles/global.css';
+import '../styles/scss.scss';
 
 console.log('Hello test')
