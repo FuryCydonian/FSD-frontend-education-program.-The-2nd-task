@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-// const {
-//     CleanWebpackPlugin
-// } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -75,7 +73,7 @@ module.exports = {
         open: true
     },
     plugins: [
-        // new CleanWebpackPlugin(),
+        new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
                 { from: path.resolve(__dirname, 'src/static/favicon.ico'), to: path.resolve(__dirname, 'dist/static') },
