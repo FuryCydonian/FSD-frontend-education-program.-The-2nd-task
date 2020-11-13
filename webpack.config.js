@@ -8,6 +8,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = !isDev;
 
 const optimization = () => {
     const config = {};
@@ -16,17 +20,31 @@ const optimization = () => {
         config.minimizer = [
             new CssMinimizerPlugin(),
             new TerserWebpackPlugin()
-
         ]
     }
 
     return config;
 };
 
-const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
+const filename = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`;
 
-const isDev = process.env.NODE_ENV === 'development';
-const isProd = !isDev;
+const cssLoaders = extra => {
+    const loaders = [
+        {
+            loader: MiniCssExtractPlugin.loader,
+            options: {},
+        },
+        'css-loader',
+    ]
+
+    if (extra) {
+        loaders.push(extra);
+    }
+
+    return loaders;
+}
+
+const eslint = isDev ? new ESLintPlugin() : '';
 
 const PATHS = {
     src: path.join(__dirname, './src'),
@@ -39,7 +57,7 @@ const PAGES = fs.readdirSync(PAGES_DIR).filter(fileName => fileName.endsWith('.p
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: './scripts/index.js',
+    entry: ['@babel/polyfill', './scripts/index.js'],
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
@@ -53,7 +71,8 @@ module.exports = {
     optimization: optimization(),
     devServer: {
         port: 4200,
-        hot: isDev
+        hot: true,
+        open: true
     },
     plugins: [
         // new CleanWebpackPlugin(),
@@ -71,35 +90,19 @@ module.exports = {
         })),
         new MiniCssExtractPlugin({
             filename: filename('css')
-        })
+        }),
+        eslint
     ],
+    devtool: isDev ? 'source-map' : '',
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-
-                        }
-                    },
-                    'css-loader',
-                    // 'sass-loader'
-                ]
+                use: cssLoaders()
             },
             {
                 test: /\.s[ac]ss$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-
-                        }
-                    },
-                    'css-loader',
-                    'sass-loader'
-                ]
+                use: cssLoaders('sass-loader')
             },
             {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,
@@ -112,6 +115,28 @@ module.exports = {
             {
                 test: /\.pug$/,
                 loader: 'pug-loader'
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins: ['@babel/plugin-proposal-class-properties']
+                    }
+                }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-typescript'],
+                        plugins: ['@babel/plugin-proposal-class-properties']
+                    }
+                }
             }
         ]
     }
