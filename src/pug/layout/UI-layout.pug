@@ -1,4 +1,6 @@
-include bemto/bemto.pug
+//- include ../../../bemto/bemto.pug
+include ../utils/mixins
+block variables
 
 <!DOCTYPE html>
 html(lang="en")
@@ -9,4 +11,6 @@ html(lang="en")
         title #{title}
 
     body(class=pageClass)
-        include '../includes/modules/UI-header.pug'
+        include ../includes/modules/UI-header
+            .content-wrapper
+                block color-types-content

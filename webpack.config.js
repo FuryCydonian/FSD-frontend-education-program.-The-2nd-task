@@ -56,7 +56,9 @@ const PAGES = fs.readdirSync(PAGES_DIR).filter(fileName => fileName.endsWith('.p
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: ['@babel/polyfill', './scripts/index.js'],
+    entry: {
+        main: ['@babel/polyfill', './scripts/index.js'],
+    },
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
