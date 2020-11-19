@@ -1,4 +1,4 @@
-//- include ../../../bemto/bemto.pug
+include ../../bemto/bemto.pug
 include ../utils/mixins
 block variables
 
@@ -11,6 +11,6 @@ html(lang="en")
         title #{title}
 
     body(class=pageClass)
-        include ../UI.blocks/UI-header.pug
+        include ../common.blocks/UI-header/UI-header.pug
             .content-wrapper
                 block color-types-content

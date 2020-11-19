@@ -1,0 +1,50 @@
+// @font-face {
+//   font-family: 'Font Awesome';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url('../fonts/fontawesome/fa-brands-400.woff2') format('woff2'),
+//     url('../fonts/fontawesome/fa-brands-400.woff') format('woff'),
+//     url('../fonts/fontawesome/fa-brands-400.ttf') format('opentype'),
+//     url('../fonts/fontawesome/fa-regular-400.svg') format('svg');
+// }
+
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Quicksand/Quicksand-Regular/Quicksand-Regular.eot?') format("eot"),
+    url('../fonts/Quicksand/Quicksand-Regular/Quicksand-Regular.woff') format('woff'),
+    url('../fonts/Quicksand/Quicksand-Regular/Quicksand-Regular.ttf') format('truetype'),
+    url('../fonts/Quicksand/Quicksand-Regular/Quicksand-Regular.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/Quicksand/Quicksand-Bold/Quicksand-Bold.eot?') format("eot"),
+    url('../fonts/Quicksand/Quicksand-Bold/Quicksand-Bold.woff') format('woff'),
+    url('../fonts/Quicksand/Quicksand-Bold/Quicksand-Bold.ttf') format('truetype'),
+    url('../fonts/Quicksand/Quicksand-Bold/Quicksand-Bold.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Montserrat/Montserrat-Regular/Montserrat-Regular.eot?') format("eot"),
+    url('../fonts/Montserrat/Montserrat-Regular/Montserrat-Regular.woff') format('woff'),
+    url('../fonts/Montserrat/Montserrat-Regular/Montserrat-Regular.ttf') format('truetype'),
+    url('../fonts/Montserrat/Montserrat-Regular/Montserrat-Regular.svg') format('svg');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/Montserrat/Montserrat-Bold/Montserrat-Bold.eot?') format("eot"),
+    url('../fonts/Montserrat/Montserrat-Bold/Montserrat-Bold.woff') format('woff'),
+    url('../fonts/Montserrat/Montserrat-Bold/Montserrat-Bold.ttf') format('truetype'),
+    url('../fonts/Montserrat/Montserrat-Bold/Montserrat-Bold.svg') format('svg');
+}
+

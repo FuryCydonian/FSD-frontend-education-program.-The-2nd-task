@@ -1,4 +1,4 @@
-//- include ../../../bemto/bemto.pug
+include ../../bemto/bemto.pug
 include ../utils/mixins
 block variables
 
@@ -13,9 +13,9 @@ html(lang="en")
 
     body(class=pageClass)
         .wrapper
-            include ../common.blocks/header.pug
+            include ../common.blocks/header/header.pug
             .content-wrapper
                 block content
-            include ../common.blocks/footer.pug
+            include ../common.blocks/footer/footer.pug
 
         block script
