@@ -9,8 +9,13 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(name="description", content=description)
         title #{title}
+        block head
 
     body(class=pageClass)
-        include ../includes/modules/UI-header
+        .wrapper
+            include ../common.blocks/header.pug
             .content-wrapper
-                block color-types-content
+                block content
+            include ../common.blocks/footer.pug
+
+        block script
